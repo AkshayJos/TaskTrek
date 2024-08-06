@@ -14,7 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+app.use(cors({
+  origin : 'https://tasktrek-2wlv.onrender.com'
+}));
 app.use(express.json());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,7 +25,7 @@ app.use(errorController);
 
 app.use(express.static(path.join(__dirname,"./client/build")));
 app.get('*',function(_,res){
-    res.sendFile(path.join(__dirname,"./client/build/index.html"),function(error){
+    res.sendFile(path.join(__dirname,"build","./client/build/index.html"),function(error){
       res.status(500).send(error);
     })
 })
