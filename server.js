@@ -25,7 +25,7 @@ app.use(errorController);
 
 app.use(express.static(path.join(__dirname,"./client/build")));
 app.get('*',function(_,res){
-    res.sendFile(path.join(__dirname,"build","./client/build/index.html"),function(error){
+    res.sendFile(path.join(__dirname,"./client/build/index.html"),function(error){
       res.status(500).send(error);
     })
 })
