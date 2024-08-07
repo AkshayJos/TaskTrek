@@ -23,9 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", router);
 app.use(errorController);
 
-app.use(express.static(path.join(__dirname,"client","build")));
+app.use(express.static(path.join(__dirname,"./client/build")));
 app.get('*',function(_,res){
-    res.sendFile(path.join(__dirname,"client","build","index.html"),function(error){
+    res.sendFile(path.join(__dirname,"./client/build/index.html"),function(error){
       res.status(500).send(error);
     })
 })
