@@ -1,43 +1,32 @@
 import React from "react";
-import {
-  Card,
-  CardText,
-  CardBody,
-  Button,
-} from "reactstrap";
 import { Link } from "react-router-dom";
 
 const Todo = ({ todo, deleteTodo }) => {
-
   return (
-    <div className="text-center" style={{ margin: 10 }}>
-      <Card>
-        <CardBody>
-          <h5>{todo.title}</h5>
-          <CardText>{todo.description}</CardText>
-          
-          <Button color="warning">
-            <Link
-              className="list-group-item list-group-item-action"
-              tag="a"
-              to={`/update-todo/${todo._id}`}
-              action
-            >
-              Update
-            </Link>
-          </Button>
+    <div className="text-center m-2.5">
+      <div className="bg-white rounded-lg shadow-md p-4">
+        <h5 className="text-lg font-semibold break-words font-serif">
+          {todo.title}
+        </h5>
+        <p className="text-gray-700 break-words font-serif">
+          {todo.description}
+        </p>
 
-          <Button
-            color="danger"
-            className="mx-3"
-            onClick={() => {
-              deleteTodo(todo._id);
-            }}
+        <div className="flex justify-center mt-2">
+          <Link
+            to={`/update-todo/${todo._id}`}
+            className="bg-yellow-500 text-white py-2 px-4 rounded-xl no-underline font-serif"
+          >
+            Update
+          </Link>
+          <button
+            className="bg-red-500 text-white py-2 px-4 rounded-xl ml-3 font-serif"
+            onClick={() => deleteTodo(todo._id)}
           >
             Delete
-          </Button>
-        </CardBody>
-      </Card>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

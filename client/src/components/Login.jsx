@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { API } from "../services/api";
 import { DataContext } from "../context/dataProvider";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,7 @@ export default function Login({ isUserAuthenticated }) {
   const signupInitialValues = {
     name: "",
     username: "",
-    userPicture: "",
     password: "",
-    favouritePosts: [],
   };
 
   const loginInitialValues = {
@@ -25,32 +23,9 @@ export default function Login({ isUserAuthenticated }) {
   const [account, ToggleAccount] = useState(false);
   const [login, setLogin] = useState(loginInitialValues);
   const [signup, setSignup] = useState(signupInitialValues);
-  const [file, setFile] = useState("");
-  let [url, setUrl] = useState("");
-  const [error, setError] = useState("");
   const [isVisible, ToggleVisiblity] = useState(false);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const getImage = async () => {
-      if (file) {
-        const data = new FormData();
-        data.append("name", file.name);
-        data.append("file", file);
-
-        //API Call
-        try {
-          const response = await API.uploadProfileFile(data);
-          if (response.isSuccess) {
-            signup.userPicture = response.data;
-            setUrl(response.data);
-          }
-        } catch (error) {}
-      }
-    };
-    getImage();
-  }, [file]);
 
   const toggleAccount = () => {
     account == true ? ToggleAccount(false) : ToggleAccount(true);
@@ -74,8 +49,6 @@ export default function Login({ isUserAuthenticated }) {
       response = await API.userLogin(login);
 
       if (response.isSuccess) {
-        setError("");
-
         isUserAuthenticated(true);
 
         document.cookie = `accessToken=${response.data.accessToken}; path=/`;
@@ -85,7 +58,6 @@ export default function Login({ isUserAuthenticated }) {
           _id: response.data._id,
           username: response.data.username,
           name: response.data.name,
-          userPicture: response.data.userPicture,
         });
         toast.success("LoggedIn Successfully !!")
         navigate("/");
@@ -100,12 +72,9 @@ export default function Login({ isUserAuthenticated }) {
     try {
       let response = await API.userSignup(signup);
       if (response.isSuccess) {
-        setError("");
         setSignup(signupInitialValues);
         toggleAccount();
         toast.success("User Registered Successfully !!")
-      } else {
-        setError("Something went wrong! Please try Again.");
       }
     } catch (err) {
       toast.error(err.msg);
@@ -114,24 +83,23 @@ export default function Login({ isUserAuthenticated }) {
 
   return (
     <div
-      onClick={() => setError("")}
       className="bg-gradient-to-r from-stone-50 to-gray-300 h-full w-full"
     >
       <div
         onKeyDown={(e) => {
           if (e.key === "Enter") loginUser();
         }}
-        className="h-full flex min-h-full flex-1 flex-col justify-center px-3 py-14 lg:px-8"
+        className="h-full flex min-h-full flex-1 flex-col justify-center px-8 py-14 lg:px-8"
       >
         {account ? (
-          <div className="my-10 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
+          <div className="my-16 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-8 px-8 sm:px-0">
               <img
                 className="mx-auto h-20 w-auto"
                 src={`${process.env.PUBLIC_URL}/images/image.png`}
                 alt="TaskTrek"
               />
-              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-serif">
                 Sign in to your account
               </h2>
             </div>
@@ -154,7 +122,7 @@ export default function Login({ isUserAuthenticated }) {
                       required
                       value={login.username}
                       onChange={(e) => onValueChange(e)}
-                      className="block w-full rounded-md border outline-none py-1.5 text-gray-900  sm:text-sm sm:leading-6 p-2"
+                      className="block w-full rounded-md border outline-none py-1.5 text-gray-900  sm:text-sm sm:leading-6 p-2 font-serif"
                     />
                   </div>
                 </div>
@@ -177,7 +145,7 @@ export default function Login({ isUserAuthenticated }) {
                       autoComplete="current-password"
                       required
                       onChange={(e) => onValueChange(e)}
-                      className="block w-full outline-none py-1.5 text-gray-900 sm:text-sm sm:leading-6 p-2"
+                      className="block w-full outline-none py-1.5 text-gray-900 sm:text-sm sm:leading-6 p-2 font-serif"
                     />
                     {isVisible ? (
                       <VisibilityOffIcon
@@ -193,8 +161,6 @@ export default function Login({ isUserAuthenticated }) {
                   </div>
                 </div>
 
-                {error && <div className="text-red-500 ">{error}</div>}
-
                 <div>
                   <button
                     type="submit"
@@ -206,11 +172,11 @@ export default function Login({ isUserAuthenticated }) {
                 </div>
               </div>
 
-              <p className="my-5 text-center text-sm text-gray-500">
+              <p className="my-6 text-center text-sm text-gray-500 font-serif">
                 Don't have An Account?{" "}
                 <a
                   href="#"
-                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 no-underline"
                   onClick={toggleAccount}
                 >
                   Register Here
@@ -219,14 +185,14 @@ export default function Login({ isUserAuthenticated }) {
             </div>
           </div>
         ) : (
-          <div className="my-8 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center px-8 sm:px-0 mt-4">
+          <div className="my-12 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center px-8 sm:px-0 mt-5">
               <img
                 className="mx-auto h-20 w-auto"
                 src={`${process.env.PUBLIC_URL}/images/image.png`}
                 alt="Your Company"
               />
-              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-serif">
                 Create An Account
               </h2>
             </div>
@@ -248,13 +214,13 @@ export default function Login({ isUserAuthenticated }) {
                       autoComplete="name"
                       required
                       onChange={(e) => onInputChange(e)}
-                      className="block w-full rounded-md border outline-none py-1.5 text-gray-900  sm:text-sm sm:leading-6 p-2"
+                      className="block w-full rounded-md border outline-none py-1.5 text-gray-900  sm:text-sm sm:leading-6 p-2 font-serif"
                     />
                   </div>
 
                   <label
                     htmlFor="email"
-                    className="mt-2 block text-sm font-medium leading-6 text-gray-900"
+                    className="mt-2 block text-sm font-medium leading-6 text-gray-900 "
                   >
                     Username
                   </label>
@@ -266,7 +232,7 @@ export default function Login({ isUserAuthenticated }) {
                       autoComplete="username"
                       required
                       onChange={(e) => onInputChange(e)}
-                      className="block w-full rounded-md border outline-none py-1.5 text-gray-900  sm:text-sm sm:leading-6 p-2"
+                      className="block w-full rounded-md border outline-none py-1.5 text-gray-900  sm:text-sm sm:leading-6 p-2 font-serif"
                     />
                   </div>
 
@@ -286,7 +252,7 @@ export default function Login({ isUserAuthenticated }) {
                       required
                       onChange={(e) => onInputChange(e)}
                       className="block w-full outline-none py-1.5 text-gray-900
-                       sm:text-sm sm:leading-6 p-2"
+                       sm:text-sm sm:leading-6 p-2 font-serif"
                     />
                     {isVisible ? (
                       <VisibilityOffIcon
@@ -302,7 +268,6 @@ export default function Login({ isUserAuthenticated }) {
                   </div>
                 </div>
 
-                {error && <div className="text-red-500 ">{error}</div>}
 
                 <div>
                   <button
@@ -314,11 +279,11 @@ export default function Login({ isUserAuthenticated }) {
                 </div>
               </div>
 
-              <p className="px-2 my-4 text-center text-sm text-gray-500 ">
+              <p className="px-2 my-4 text-center text-sm text-gray-500 font-serif">
                 Already Have An Account?{" "}
                 <a
                   href="#"
-                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 no-underline"
                   onClick={toggleAccount}
                 >
                   Login Here

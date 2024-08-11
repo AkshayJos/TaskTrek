@@ -1,10 +1,10 @@
 import {useContext, useState } from "react";
-import { Form, FormGroup, Label, Input, Button, Container, Row, Col } from "reactstrap";
 import { API } from "../services/api";
 import { DataContext } from "../context/dataProvider";
 import Header from "./Header";
 import Menus from "./menus";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddTodo = () => {
 
@@ -31,69 +31,75 @@ const AddTodo = () => {
       const response = await API.createTodo(data);
       if (response.isSuccess) {
         navigate('/view-todo');
+        toast.success("Todo added successfully!")
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.msg);
     }
   };
 
   return (
-    <Container>
-      <Header />
-      <Row>
-        <Col md={4}>
-          <Menus />
-        </Col>
+    <div className="container mx-auto lg:px-40 px-4">
+  <Header />
+  <div className="flex flex-wrap">
+    <div className="w-full md:w-1/3">
+      <Menus />
+    </div>
 
-        <Col md={8}>
-          <Form
-            onSubmit={handleForm}
-            style={{ marginLeft: 20, marginRight: 20 }}
+    <div className="w-full md:w-2/3 px-4">
+      <form
+        onSubmit={handleForm}
+        className="mx-5"
+      >
+        <h2 className="text-center text-2xl font-semibold mt-3 font-serif">Fill Todo Details</h2>
+
+        <div className="mb-4">
+          <label className="font-semibold block mb-2 font-serif" htmlFor="todoTitle">Title</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter Title here.."
+            className="w-full px-2 py-2 border border-gray-300 rounded-md outline-none font-serif"
+            onChange={(e) => {
+              setTodo({ ...todo, title: e.target.value });
+            }}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="font-semibold block mb-2 font-serif" htmlFor="todoDescription">Description</label>
+          <textarea
+            name="description"
+            placeholder="Enter Description here.."
+            className="w-full px-2 py-2 border border-gray-300 rounded-md outline-none font-serif"
+            style={{ height: '100px' }}
+            onChange={(e) => {
+              setTodo({ ...todo, description: e.target.value });
+            }}
+          />
+        </div>
+
+        <div className="text-center mb-8">
+          <button
+            type="submit"
+            className="bg-green-600 text-white font-serif  py-2 px-4 rounded-xl"
+            onClick={() => {}}
           >
-            <h2 className="text-center">Fill Todo Details</h2>
+            Add Todo
+          </button>
+          <button
+            type="reset"
+            className="bg-yellow-500 text-white font-serif py-2 px-4 rounded-xl ml-3"
+            onClick={() => {}}
+          >
+            Clear
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-            <FormGroup>
-              <Label className="font-semibold" for="todoTitle">Title</Label>
-              <Input
-                type="text"
-                name="title"
-                placeholder="Enter Title here.."
-                onChange={(e) => {
-                  setTodo({ ...todo, title: e.target.value });
-                }}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label className="font-semibold" for="todoDescription">Description</Label>
-              <Input
-                type="textarea"
-                name="description"
-                placeholder="Enter Description here.."
-                style={{ height: 100 }}
-                onChange={(e) => {
-                  setTodo({ ...todo, description: e.target.value });
-                }}
-              />
-            </FormGroup>
-
-            <FormGroup className="text-center">
-              <Button type="submit" color="success" onClick={() => {}}>
-                Add Todo
-              </Button>
-              <Button
-                type="reset"
-                color="warning"
-                className="m-3"
-                onClick={() => {}}
-              >
-                Clear
-              </Button>
-            </FormGroup>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
   );
 };
 

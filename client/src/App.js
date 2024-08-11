@@ -1,11 +1,8 @@
 import "./App.css";
-import Header from "./components/Header";
 import Home from "./components/Home";
-import { Container, Row, Col } from "reactstrap";
 import AllTodos from "./components/AllTodos";
 import AddTodo from "./components/AddTodo";
 import UpdateTodo from "./components/UpdateTodo";
-import Menus from "./components/menus";
 import {
   BrowserRouter as Router,
   Route,
@@ -19,9 +16,10 @@ import About from "./components/About";
 import { useContext, useEffect, useState } from "react";
 import { getToken } from "./utils/common-utils";
 import Login from "./components/Login";
-import Layout from "./components/Layout";
 import { API } from "./services/api";
 import { DataContext } from "./context/dataProvider";
+import PageNotFound from "./components/PageNotFound";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [isAuthenticated, isUserAuthenticated] = useState(false);
@@ -37,7 +35,7 @@ function App() {
   useEffect(() => {
     if (isAuthenticated) {
       if (location.pathname === "/login") {
-        navigate("/home");
+        navigate("/");
       } else {
         navigate(`${location.pathname}`);
       }
@@ -72,6 +70,10 @@ function App() {
 
   return (
     <>
+    <div>
+        <Toaster position="top-right" toastOptions={{success : { theme :{ primary : '#4aed88'}}}} >
+        </Toaster>
+      </div>
       <Routes>
         <Route
           path="/login"
@@ -112,6 +114,8 @@ function App() {
         >
           <Route path="/about" element={<About />} />
         </Route>
+
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

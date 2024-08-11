@@ -1,26 +1,26 @@
 import { React, useContext, useEffect, useState } from "react";
-import { Form, FormGroup, Label, Input, Button, Container, Row, Col } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "./Header";
 import Menus from "./menus";
 import { API } from "../services/api";
 import { DataContext } from "../context/dataProvider";
+import toast from "react-hot-toast";
 
 const UpdateTodo = () => {
-  const {account} = useContext(DataContext);
-  const {todoId} = useParams();
+  const { account } = useContext(DataContext);
+  const { todoId } = useParams();
 
   useEffect(() => {
     document.title = "Update Todo";
     getTodoById(todoId);
   }, []);
 
-  const IntialTodo = {  
+  const IntialTodo = {
     author: account._id,
     title: "",
     description: "",
   };
-  
+
   const [todo, setTodo] = useState(IntialTodo);
   const navigate = useNavigate();
 
@@ -29,48 +29,51 @@ const UpdateTodo = () => {
     updateTodoOnServer(todo);
   };
 
-  const updateTodoOnServer = async(todo) => {
-    try{
-    const response = await API.updateTodo(todo);
-    if(response.isSuccess){
-        navigate('/view-todo');
+  const updateTodoOnServer = async (todo) => {
+    try {
+      const response = await API.updateTodo(todo);
+      if (response.isSuccess) {
+        navigate("/view-todo");
+        toast.success("Todo updated successfully!");
+      }
+    } catch (error) {
+      toast.error(error.msg);
     }
-    }
-    catch(error){
+  };
+
+  const getTodoById = async (id) => {
+    try {
+      const response = await API.getTodoById(id);
+      if (response.isSuccess) {
+        setTodo(response.data);
+      }
+    } catch (error) {
       console.log(error);
     }
   };
 
-  const getTodoById = async(id) =>{
-    try{
-        const response = await API.getTodoById(id);
-        if(response.isSuccess){
-          setTodo(response.data);
-        }
-    }
-    catch(error){
-        console.log(error);
-    }
-  }
-
   return (
-    <Container>
+    <div className="container mx-auto lg:px-40 px-5">
       <Header />
-      <Row>
-        <Col md={4}>
+      <div className="flex flex-wrap">
+        <div className="w-full md:w-1/3">
           <Menus />
-        </Col>
+        </div>
 
-        <Col md={8}>
-          <Form 
-            onSubmit={handleForm}
-            style={{ marginLeft: 20, marginRight: 20 }}
-          >
-            <h2 className="text-center">Fill Todo Details</h2>
+        <div className="w-full md:w-2/3 mt-4">
+          <form onSubmit={handleForm} className="mx-5">
+            <h2 className="text-center text-2xl font-bold mb-2 font-serif">
+              Fill Todo Details
+            </h2>
 
-            <FormGroup>
-              <Label className="font-semibold" for="todoTitle">Todo Title</Label>
-              <Input
+            <div className="mb-4">
+              <label
+                className="font-semibold block mb-2 font-serif"
+                htmlFor="todoTitle"
+              >
+                Title
+              </label>
+              <input
                 type="text"
                 name="todoTitle"
                 placeholder="Enter description here..."
@@ -78,32 +81,41 @@ const UpdateTodo = () => {
                 onChange={(e) => {
                   setTodo({ ...todo, title: e.target.value });
                 }}
+                className="w-full px-3 py-2 border rounded-lg outline-none font-serif"
               />
-            </FormGroup>
+            </div>
 
-            <FormGroup>
-              <Label className="font-semibold" for="todoDescription">Todo Description</Label>
-              <Input
-                type="textarea"
+            <div className="mb-2">
+              <label
+                className="font-semibold block mb-2 font-serif"
+                htmlFor="todoDescription"
+              >
+                Description
+              </label>
+              <textarea
                 name="todoDescription"
                 placeholder="Enter title here..."
                 value={todo.description}
-                style={{ height: 100 }}
                 onChange={(e) => {
                   setTodo({ ...todo, description: e.target.value });
                 }}
+                className="w-full px-3 py-2 border rounded-lg outline-none font-serif"
+                style={{ height: "100px" }}
               />
-            </FormGroup>
+            </div>
 
-            <FormGroup className="text-center">
-              <Button type="submit" color="success">
+            <div className="text-center">
+              <button
+                type="submit"
+                className="bg-green-600 text-white px-4 py-2 mb-8 rounded-lg font-serif"
+              >
                 Update
-              </Button>
-            </FormGroup>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

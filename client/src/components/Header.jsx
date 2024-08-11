@@ -1,17 +1,17 @@
 import React from "react";
-import { Card, CardHeader } from "reactstrap";
 
 const Header = () => {
   return (
     <div>
-      <Card className="my-3" color="warning">
-        <CardHeader>
-          <h1 className="text-center my-4" outline = "true">
-            Welcome to TaskTrek
-          </h1>
-        </CardHeader>
-      </Card>
+  <div className="bg-yellow-400 my-3 rounded-lg shadow-md">
+    <div className="p-4 border-b border-yellow-500">
+      <h1 className="text-center my-4 font-serif font-semibold text-3xl">
+        Welcome to TaskTrek
+      </h1>
     </div>
+  </div>
+</div>
+
   );
 };
 

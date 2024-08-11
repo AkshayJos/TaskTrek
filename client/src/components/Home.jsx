@@ -1,33 +1,36 @@
-import {React} from "react";
-import { Button, Col, Container, Row } from "reactstrap";
+import { React } from "react";
 import Menus from "./menus";
 import Header from "./Header";
 
 const Home = () => {
-
   return (
-    <Container>
-    <Header />
-    <Row>
-      <Col md={4}>
-        <Menus />
-      </Col>
-
-      <Col md={8}>
-      <div>
-      <Container style={{ backgroundColor : '#e9ecef',textAlign : "center", borderRadius : 20}}>
-
-        <h1 className="py-2">Welcome to Todos</h1>
-        <hr className="my-2"/>
-        <p className="pt-3">This is a todo application developed by Akshay Kumar Joshi.</p>
-        <p className="pb-2">Here you can add , delete and update your Todos.</p>
-        <Button color="primary mb-4" outline>Start using</Button>
-      </Container>
+    <div className="mx-auto lg:px-40 px-4 container">
+  <Header />
+  <div className="flex flex-wrap">
+    <div className="w-full md:w-1/3">
+      <Menus />
     </div>
-      </Col>
-    </Row>
-  </Container>
-    
+
+    <div className="w-full md:w-2/3">
+      <div className="mt-2">
+        <div className="bg-gray-100 text-center rounded-lg p-4">
+          <h1 className="py-2 font-serif font-semibold text-2xl">Welcome to Todos</h1>
+          <hr className="my-2 border-t-2 border-gray-300" />
+          <p className="pt-3 font-serif">
+            This is a todo application developed by Akshay Kumar Joshi.
+          </p>
+          <p className="pb-2 font-serif">
+            Here you can add, delete, and update your Todos.
+          </p>
+          <button className="hover:bg-gradient-to-r from-sky-400 to-blue-500 hover:text-white mb-4 font-serif px-4 py-2 rounded-lg border border-blue-400 bg-transparent">
+            Start using
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   );
 };
 
