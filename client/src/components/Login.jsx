@@ -87,9 +87,10 @@ export default function Login({ isUserAuthenticated }) {
     >
       <div
         onKeyDown={(e) => {
-          if (e.key === "Enter") loginUser();
+          if (e.key === "Enter" && account) loginUser();
+          else if(e.key === "Enter" && !account) signupUser();
         }}
-        className="h-full flex min-h-full flex-1 flex-col justify-center px-8 py-14 lg:px-8"
+        className="h-full flex min-h-full flex-1 flex-col justify-center mx-3 py-14 lg:px-8"
       >
         {account ? (
           <div className="my-16 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
