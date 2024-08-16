@@ -60,6 +60,10 @@ export const getTodo = async (req, res, next) => {
 
 export const updateTodo = async (req, res, next) => {
   try {
+    if(req.body.title === '' || req.body.description === ''){
+      next(ErrorHandler.validationError('All fields are required.'));
+      return;
+    }
     const todo = await Todo.findById(req.params.id);
 
     if (!todo) {
