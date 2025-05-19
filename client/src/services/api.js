@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from "../constants/config.js";
 import { getToken, getType } from "../utils/common-utils.js";
 
-const API_URL = "";
+const API_URL = "https://tasktrek-2wlv.onrender.com";
 
 axios.defaults.baseURL = API_URL;
 
