@@ -93,14 +93,15 @@ export default function Login({ isUserAuthenticated }) {
         className="h-full flex min-h-full flex-1 flex-col justify-center mx-3 py-14 lg:px-8"
       >
         {account ? (
-          <div className="my-16 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
+          <div className="my-16 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto bg-white 
+          bg-white/35 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-[12px] rounded-[10px] border border-[rgba(255,255,255,0.18)]">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-8 px-8 sm:px-0">
               <img
                 className="mx-auto h-20 w-auto"
                 src={`${process.env.PUBLIC_URL}/images/image.png`}
                 alt="TaskTrek"
               />
-              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-serif">
+              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-serif mt-5">
                 Sign in to your account
               </h2>
             </div>
@@ -186,14 +187,15 @@ export default function Login({ isUserAuthenticated }) {
             </div>
           </div>
         ) : (
-          <div className="my-12 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto shadow-sm rounded-xl bg-gray-50">
+          <div className="my-12 sm:mx-auto sm:w-full sm:max-w-[30rem] h-auto bg-white 
+          bg-white/35 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-[12px] rounded-[10px] border border-[rgba(255,255,255,0.18)]">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center px-8 sm:px-0 mt-5">
               <img
                 className="mx-auto h-20 w-auto"
                 src={`${process.env.PUBLIC_URL}/images/image.png`}
                 alt="Your Company"
               />
-              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-serif">
+              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-serif mt-3">
                 Create An Account
               </h2>
             </div>
