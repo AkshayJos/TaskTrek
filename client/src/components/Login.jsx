@@ -200,7 +200,7 @@ export default function Login({ isUserAuthenticated }) {
               </h2>
             </div>
 
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm px-8 sm:px-0">
+            <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm px-8 sm:px-0">
               <div className="space-y-6">
                 <div>
                   <label
