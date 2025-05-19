@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from "../constants/config.js";
 import { getToken, getType } from "../utils/common-utils.js";
 
-const API_URL = "http://localhost:8080";
+const API_URL = process.env.REACT_APP_SERVER_URL;
 
 axios.defaults.baseURL = API_URL;
 
@@ -11,7 +11,7 @@ const axoisInstance = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    "Accept": "application/json, form-data", 
+    "Accept": "application/json, multipart/form-data", 
     'Access-Control-Allow-Origin' : '*'
   },
 });
